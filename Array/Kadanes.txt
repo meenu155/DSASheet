@@ -1,0 +1,36 @@
+Problem: Maximum Subarray (Kadane's Algorithm)
+
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+Link: https://leetcode.com/problems/maximum-subarray/description/
+
+Intuition:
+- Track a running sum; if it drops below 0, reset it (a negative prefix can't help future sums).
+- Keep the maximum sum seen so far.
+- Edge case: all-negative arrays handled by comparing each element to maxSum first.
+
+Complexity:
+- Time: O(n)
+- Space: O(1)
+
+Java Solution (unchanged):
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum=Integer.MIN_VALUE;;
+        int sum=0;
+        for (int i = 0; i < nums.length; i++) {
+        maxSum = Math.max(maxSum, nums[i]);
+}
+        for(int i=0;i<nums.length;i++){
+            sum=sum+nums[i];
+            if(sum<0){
+                sum=0;
+            }
+            else{
+                maxSum=Math.max(maxSum,sum);
+            }
+        }
+      return maxSum ; 
+    }
+}
