@@ -1,0 +1,55 @@
+Problem: Two Sum
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+Constraints/Notes:
+- Exactly one valid pair exists for each input.
+- You may not use the same element twice.
+- Return indices in any order.
+
+Link: https://leetcode.com/problems/two-sum/description/
+
+Example:
+- Input: nums = [2,7,11,15], target = 9
+- Output: [0,1]  // because nums[0] + nums[1] = 2 + 7 = 9
+
+Approach (Hash Map, Single Pass):
+- Keep a map from value -> index.
+- For each index i, compute need = target - nums[i]. If need is in the map, return [map[need], i]. Otherwise, store nums[i] -> i.
+- Time: O(n), Space: O(n).
+
+Python:
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        indexByValue = {}
+        for i in range(len(nums)):
+            value = nums[i]
+            complement = target - nums[i]
+            if complement in indexByValue:
+                return [indexByValue[complement], i]
+            indexByValue[value] = i
+
+Java:
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int diff;
+        Map<Integer,Integer> d=new HashMap();
+        for(int i=0;i<nums.length;i++){
+            diff=target-nums[i];
+            if(d.containsKey(diff)){
+                return new int[] { d.get(diff), i };
+            }
+            d.put(nums[i],i);
+
+        }
+        return new int[] {};
+        
+    }
+}
+
+Alternative Approaches (for reference):
+- Brute force: Check all pairs; Time O(n^2), Space O(1).
+- Two pointers: Only works if array is sorted; returns value indices in sorted order. To get original indices, store value-index pairs and sort; Time O(n log n), Space O(n).
+
