@@ -1,0 +1,49 @@
+Problem: Trapping Rain Water
+
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+Link: https://leetcode.com/problems/trapping-rain-water/description/
+
+Intuition:
+- Precompute the maximum height to the left and to the right for every index.
+- The water above index i is min(leftMax[i], rightMax[i]) - height[i].
+
+Complexity:
+- Time: O(n)
+- Space: O(n) for left and right arrays.
+
+Java Solution (unchanged):
+
+class Solution {
+    public int trap(int[] height) {
+        int n=height.length;
+        int[] left= new int[n];
+        int[] right=new int[n];
+        left[0]=0;
+        right[n-1]=0;
+        int leftMax=0;
+        int rightMax=0;
+        for(int i=0;i<height.length;i++){
+            leftMax=Math.max(leftMax,height[i]);
+            left[i]=leftMax;
+
+        }
+        for(int i=n-1;i>=0;i--){
+            rightMax=Math.max(rightMax,height[i]);
+            right[i]=rightMax;
+
+        }
+        System.out.println(left);
+        System.out.println(Arrays.toString(left));
+        System.out.println(Arrays.toString(right));
+        int sum=0;
+        for(int i=1;i<n-1;i++){
+            sum=sum+Math.min(left[i],right[i])-height[i];
+
+        }
+        return sum;
+
+
+        
+    }
+}
