@@ -1,0 +1,52 @@
+Problem: Longest Substring Without Repeating Characters
+
+Link:  https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+
+Problem Statement:
+Given a string s, find the length of the longest substring without duplicate characters.
+
+Examples:
+- Input: s = "abcabcbb"  → Output: 3 (substring "abc"; "bca" and "cab" also valid)
+- Input: s = "bbbbb"     → Output: 1 (substring "b")
+- Input: s = "pwwkew"     → Output: 3 (substring "wke"; note: "pwke" is a subsequence, not a substring)
+
+Constraints:
+- 0 <= s.length <= 5 * 10^4
+- s consists of English letters, digits, symbols and spaces.
+
+Intuition:
+- Use a sliding window with a HashMap to track the last position of each character.
+- When a duplicate is seen, move the left boundary past the previous index of that character.
+- Update the maximum window length at each step.
+
+Complexity:
+- Time: O(n)
+- Space: O(min(n, charset))
+
+Java Solution (unchanged):
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Map <Character,Integer> map=new HashMap();
+        int i=0;
+        int j=0;
+        int max=0;
+        while(j<s.length()){
+            if(map.containsKey(s.charAt(j))){
+                i =Math.max(map.get(s.charAt(j)) + 1,i);
+                map.put(s.charAt(j),j);
+                if(i>=0) {
+                max =  Math.max(max, j-i+1);
+            }
+                j++;
+            }
+            else {
+
+            max = Math.max(max, j-i+1);
+            map.put(s.charAt(j), j);
+            j++;
+            }
+        }
+        return max;  
+    }
+}
