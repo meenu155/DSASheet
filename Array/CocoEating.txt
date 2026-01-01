@@ -1,0 +1,67 @@
+Problem: Koko Eating Bananas
+
+Koko loves to eat bananas. There are n piles of bananas; the i-th pile has piles[i] bananas. The guards have gone and will come back in h hours.
+
+Koko can decide her bananas-per-hour eating speed k. Each hour, she chooses some pile and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them and does not eat more during that hour.
+
+Koko wants to finish all bananas before the guards return.
+
+Task: Return the minimum integer k such that she can eat all the bananas within h hours.
+
+Link: https://leetcode.com/problems/koko-eating-bananas/
+
+Intuition:
+- Use binary search on k (the eating speed). For a given k, simulate the total hours needed using ceiling division per pile.
+- If the hours needed are <= h, try smaller k; otherwise, increase k.
+
+Complexity:
+- Time: O(n log M), where M is max(piles)
+- Space: O(1)
+
+Java Solution (unchanged):
+class Solution {
+    public boolean isPossible(int[] arr,int speed, int h){
+        long count=0;
+        int d;
+        int r;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]<=speed){
+                count=count+1;
+            }
+            else{
+                d=arr[i]/speed;
+                r = arr[i]%speed;
+                if(r!=0){
+                  count=count+d+1;  
+                }
+                else{
+                count=count+d;
+                }
+            }
+        }
+        return count<=h;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int low=1;
+        int high=Integer.MIN_VALUE;
+        int ans;
+        int mid;
+        int sum=0;
+        for(int i=0;i<piles.length;i++){
+            high=Math.max(high,piles[i]);
+        }
+        ans=high;
+        while(low<=high){
+            mid=(low+high)/2;
+            if(isPossible(piles,mid,h)){
+                ans=Math.min(ans,mid);
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
+            }
+        }    
+        return ans;
+        }    
+}
+ 
