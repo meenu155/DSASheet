@@ -1,0 +1,53 @@
+Problem: 3Sum
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+Link: https://leetcode.com/problems/3sum/description/
+
+Intuition:
+- Sort the array first.
+- For each element, use two pointers to find pairs that sum to the negative of the current element.
+- Use a HashSet to track and avoid duplicate triplets.
+
+Complexity:
+- Time: O(n²)
+- Space: O(n) for the HashSet
+
+Java Solution (unchanged):
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        Set<List<Integer>> seen = new HashSet<>();
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int diff = -nums[i];
+            int start = i + 1;
+            int end = nums.length - 1;
+
+            while (start < end) {
+                int sum = nums[start] + nums[end];
+
+                if (sum == diff) {
+                    List<Integer> triplet =
+                        Arrays.asList(nums[i], nums[start], nums[end]);
+
+                    if (!seen.contains(triplet)) {
+                        seen.add(triplet);
+                        ans.add(triplet);
+                    }
+
+                    start++;
+                    end--;
+                } else if (sum < diff) {
+                    start++;
+                } else {
+                    end--;
+                }
+            }
+        }
+        return ans;
+    }
+}
